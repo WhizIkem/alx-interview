@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Solves the lock boxes puzzle """
 
+
 def canUnlockAll(boxes):
     """Determines if all the boxes can be opened."""
     num_boxes = len(boxes)
