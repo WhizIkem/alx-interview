@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from collections import defaultdict
 import signal
 import sys
