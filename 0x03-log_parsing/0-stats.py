@@ -1,41 +1,32 @@
-#!/usr/bin/python3
-
-""" script that reads stdin line by line and computes metrics """
-
+from collections import defaultdict
+import signal
 import sys
 
-def printsts(dic, size):
-    """ prints the stats """
-    print("File size: {:d}".format(size))
-    for key in sorted(dic.keys()):
-        if dic[key] != 0:
-            print("{}: {:d}".format(key, dic[key]))
+# Dictionary to store status codes and their counts
+status_code_counts = defaultdict(int)
 
-sts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "403": 0}
+# Total file size
+total_size = 0
 
-count = 0
-size = 0
+# Function to print statistics
+def print_statistics(signum, frame):
+    print(f"Total file size: File size: {total_size}")
+    for status_code in sorted(status_code_counts.keys()):
+        count = status_code_counts[status_code]
+        print(f"{status_code}: {count}")
 
-try:
-    for line in sys.stdin:
-        if count != 0 and count % 10 == 0:
-            printsts(sts, size)
+# Register the signal handler
+signal.signal(signal.SIGINT, print_statistics)
 
-        stlist = line.split()
-        count += 1
+# Read input line by line
+for line in sys.stdin:
+    parts = line.strip().split()
+    if len(parts) == 10 and parts[5] == '"GET' and parts[9] == "HTTP/1.1\"":
+        ip_address, status_code, file_size = parts[0], parts[8], int(parts[6])
+        if status_code.isdigit():
+            status_code_counts[status_code] += 1
+        total_size += file_size
 
-        try:
-            size += int(stlist[-1])
-        except:
-            pass
-            
-            try:
-                if stlist[-2] in sts:
-                    sts[stlist[-2]] += 1
-            except:
-                pass
-                printsts(sts, size)
-
-except KeyboardInterrupt:
-    printsts(sts, size)
-    raise
+        # Print statistics every 10 lines
+        if total_size % 10 == 0:
+            print_statistics(None, None)
