@@ -21,8 +21,8 @@ def is_safe(board, row, col, N):
     return True
 
 def print_solution(solution):
-    for pos in solution:
-        print(pos)
+    formatted_solution = '[' + ', '.join([str(pos) for pos in solution]) + ']'
+    print(formatted_solution)
     print()
 
 def solve_nqueens(N):
