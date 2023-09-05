@@ -2,6 +2,7 @@
 
 import sys
 
+
 def is_safe(board, row, col, N):
     # Check if there is a queen in the same column
     for i in range(row):
@@ -20,9 +21,11 @@ def is_safe(board, row, col, N):
 
     return True
 
+
 def print_solution(solution):
     formatted_solution = '[' + ', '.join([str(pos) for pos in solution]) + ']'
     print(formatted_solution)
+
 
 def solve_nqueens(N):
     if N < 4:
