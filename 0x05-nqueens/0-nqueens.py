@@ -23,7 +23,6 @@ def is_safe(board, row, col, N):
 def print_solution(solution):
     formatted_solution = '[' + ', '.join([str(pos) for pos in solution]) + ']'
     print(formatted_solution)
-    print()
 
 def solve_nqueens(N):
     if N < 4:
