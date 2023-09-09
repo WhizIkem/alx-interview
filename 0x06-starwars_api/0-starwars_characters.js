@@ -1,61 +1,25 @@
 #!/usr/bin/node
+/**
+ * prints all characters of a Star Wars movie
+ */
 
+const myArgs = process.argv.slice(2);
 const request = require('request');
+const url = 'https://swapi-api.hbtn.io/api/films/' + myArgs[0];
 
-if (process.argv.length !== 3) {
-  console.error('Usage: ./script.js <Movie ID>');
-  process.exit(1);
-}
-
-const movieId = process.argv[2];
-
-// Define the URL to fetch the movie data
-const movieUrl = `https://swapi.dev/api/films/${movieId}/`;
-
-// Function to fetch character names and print them
-function fetchAndPrintCharacterNames(url) {
-  request(url, (error, response, body) => {
-    if (error) {
-      console.error('Error:', error);
-      process.exit(1);
+request(url, async function (error, response, body) {
+    if (!error) {
+	const json = JSON.parse(body);
+	const endpoints = json.characters;
+	for (const endpoint of endpoints) {
+	    await new Promise(function (resolve, reject) {
+		request(endpoint, function (error, response, body) {
+		    if (!error) {
+			console.log(JSON.parse(body).name);
+			resolve();
+		    }
+		});
+	    });
+	}
     }
-
-    if (response.statusCode !== 200) {
-      console.error('Invalid response:', response.statusCode);
-      process.exit(1);
-    }
-
-    try {
-      const movieData = JSON.parse(body);
-      const characterUrls = movieData.characters;
-
-      if (!Array.isArray(characterUrls)) {
-        console.error('Character URLs are not an array.');
-        process.exit(1);
-      }
-
-      // Fetch character names
-      characterUrls.forEach((characterUrl) => {
-        request(characterUrl, (charError, charResponse, charBody) => {
-          if (charError) {
-            console.error('Error:', charError);
-            process.exit(1);
-          }
-
-          if (charResponse.statusCode !== 200) {
-            console.error('Invalid response:', charResponse.statusCode);
-            process.exit(1);
-          }
-
-          const characterData = JSON.parse(charBody);
-          console.log(characterData.name);
-        });
-      });
-    } catch (parseError) {
-      console.error('Error parsing movie data:', parseError);
-      process.exit(1);
-    }
-  });
-}
-
-fetchAndPrintCharacterNames(movieUrl);
+});
