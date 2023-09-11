@@ -1,6 +1,7 @@
 #!/usr/bin/node
 /**
   prints all characters of a Star Wars movie
+  whiz
   */
 
 const myArgs = process.argv.slice(2);
