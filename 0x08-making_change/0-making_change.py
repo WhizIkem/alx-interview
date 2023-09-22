@@ -3,12 +3,9 @@
 Given a pile of coins of different values, determine the
 fewest number of coins needed to meet a given amount total.
 """
-import time
 
 
 def makeChange(coins, total):
-    start = time.time()
-
     if total <= 0:
         return 0
 
@@ -25,13 +22,5 @@ def makeChange(coins, total):
                 dp[i] = min(dp[i], dp[i - coin] + 1)
 
     if dp[total] == total + 1:
-        result = -1
-    else:
-        result = dp[total]
-
-    end = time.time()
-
-    avg = (end - start) / 10
-    print("Average runtime for {}: {:.6f}".format(total, avg))
-
-    return result
+        return -1
+    return dp[total]
