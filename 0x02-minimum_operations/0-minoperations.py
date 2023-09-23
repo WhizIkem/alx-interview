@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+Method that determines the number of minimum operations given n characters
+"""
+
 
 def minOperations(n):
     """
