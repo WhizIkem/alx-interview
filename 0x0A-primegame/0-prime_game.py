@@ -3,11 +3,15 @@
 Module: Game of choosing Prime numbers
 """
 
-
 def prime_numbers(n):
-    """Return list of prime numbers between 1 and n inclusive
-       Args:
-        n (int): upper boundary of range. lower boundary is always 1
+    """
+    Return a list of prime numbers between 1 and n inclusive.
+
+    Args:
+        n (int): The upper boundary of the range. The lower boundary is always 1.
+
+    Returns:
+        list: A list of prime numbers within the specified range.
     """
     prime_nos = []
     filtered = [True] * (n + 1)
@@ -18,15 +22,16 @@ def prime_numbers(n):
                 filtered[i] = False
     return prime_nos
 
-
 def is_winner(x, nums):
     """
-    Determines winner of Prime Game
+    Determine the winner of the Prime Game.
+
     Args:
-        x (int): no. of rounds of game
-        nums (int): upper limit of range for each round
-    Return:
-        Name of winner (Maria or Ben) or None if winner cannot be found
+        x (int): The number of rounds of the game.
+        nums (list): A list of integers representing the upper limit of the range for each round.
+
+    Returns:
+        str: The name of the winner (either 'Maria' or 'Ben') or None if a winner cannot be determined.
     """
     if x is None or nums is None or x == 0 or nums == []:
         return None
