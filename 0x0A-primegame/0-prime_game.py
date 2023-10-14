@@ -16,20 +16,22 @@ def isWinner(x, nums):
       return True
     
     def can_win(n):
-      if n % 2 == 1:
-        return "Maria"
-      else:
-        return "Ben"
+        if n == 1:
+            return "Ben"
+        elif is_prime(n):
+            return "Maria"
+        else:
+            return "Ben"
       
-      winner_counts = {"Maria": 0, "Ben": 0}
+    winner_counts = {"Maria": 0, "Ben": 0}
 
-      for n in nums:
+    for n in nums:
         winner = can_win(n)
         winner_counts[winner] += 1
 
-        if winner_counts["Maria"] > winner_counts["Ben"]:
-          return "Maria"
-        elif winner_counts["Ben"] > winner_counts["Maria"]:
-          return "Ben"
-        else:
-          return None
+    if winner_counts["Maria"] > winner_counts["Ben"]:
+        return "Maria"
+    elif winner_counts["Maria"] < winner_counts["Ben"]:
+        return "Ben"
+    else:
+        return None
