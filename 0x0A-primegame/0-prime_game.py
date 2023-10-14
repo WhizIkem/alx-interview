@@ -32,14 +32,20 @@ def isWinner(x, nums):
         return True
     
     def can_win(n):
-        if n <= 1:
-            return "Ben"
-        # If n is even or prime, Maria wins; otherwise, Ben wins.
-        if n % 2 == 0 or is_prime(n):
-            return "Ben"
-        else:
+    if n <= 0:
+        return "Ben"
+    elif n == 1:
+        # If n is prime, Maria wins; otherwise, Ben wins.
+        if is_prime(n):
             return "Maria"
-
+        else:
+            return "Ben"
+    else:
+        # If n is prime or even, Maria wins; otherwise, Ben wins.
+        if n % 2 == 0 or is_prime(n):
+            return "Maria"
+        else:
+            return "Ben"
     maria_wins = 0
     ben_wins = 0
       
