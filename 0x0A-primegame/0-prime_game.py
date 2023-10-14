@@ -3,56 +3,42 @@
 Module: Game of choosing Prime numbers
 """
 
+
+def primeNumbers(n):
+    """Return list of prime numbers between 1 and n inclusive
+       Args:
+        n (int): upper boundary of range. lower boundary is always 1
+    """
+    primeNos = []
+    filtered = [True] * (n + 1)
+    for prime in range(2, n + 1):
+        if (filtered[prime]):
+            primeNos.append(prime)
+            for i in range(prime, n + 1, prime):
+                filtered[i] = False
+    return primeNos
+
+
 def isWinner(x, nums):
     """
-    Determines the winner of a game based on a set of rounds.
-
+    Determines winner of Prime Game
     Args:
-        x (int): The number of rounds to play.
-        nums (list): A list of integers repesenting 'n' for each round.
-    Returns:
-        str: The name of the player who won the most rounds
-        (either Maria or Ben)
-        if the winner cannot be determined, it returns None.
+        x (int): no. of rounds of game
+        nums (int): upper limit of range for each round
+    Return:
+        Name of winner (Maria or Ben) or None if winner cannot be found
     """
-
-
-    def is_prime(num):
-        if num <= 1:
-            return False
-        if num <= 3:
-            return True
-        if num % 2 == 0 or num % 3 == 0:
-            return False
-        i = 5
-        while i * i <= num:
-            if num % i == 0 or num % (i + 2) == 0:
-                return False
-            i += 6
-        return True
-    
-    def can_win(n):
-        if n <= 1:
-            return "Ben"
-        # If n is even or prime, Maria wins; otherwise, Ben wins.
-        if n % 2 == 0 or is_prime(n):
-            return "Ben"
-        else:
-            return "Maria"
-
-    maria_wins = 0
-    ben_wins = 0
-      
-    for n in nums:
-        winner = can_win(n)
-        if winner == "Maria":
-            maria_wins += 1
-        elif winner == "Ben":
-            ben_wins += 1
-
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif maria_wins < ben_wins:
-        return "Ben"
-    else:
+    if x is None or nums is None or x == 0 or nums == []:
         return None
+    Maria = Ben = 0
+    for i in range(x):
+        primeNos = primeNumbers(nums[i])
+        if len(primeNos) % 2 == 0:
+            Ben += 1
+        else:
+            Maria += 1
+    if Maria > Ben:
+        return 'Maria'
+    elif Ben > Maria:
+        return 'Ben'
+    return None
